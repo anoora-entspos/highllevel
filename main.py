@@ -17,6 +17,8 @@ from google.cloud import firestore
 from mangum import Mangum
 import os
 from dotenv import load_dotenv
+from pydantic import BaseModel
+
 
 load_dotenv()
 
@@ -209,9 +211,18 @@ def upload_video_to_firebase(video_path, image_data, prompt, userid):
     print(f'Document added to Firestore collection: {collection_name}')
 
 
+class AnimationRequest(BaseModel):
+    prompt: str
+    text: str
+    userid: str
+
+
 @app.post("/create-animation/")
-async def create_animation(prompt: str, text: str, userid:str, background_tasks: BackgroundTasks):
+async def create_animation(request:AnimationRequest):
     try:
+        prompt = request.prompt
+        text = request.text
+        userid = request.userid
         # Step 1: Request image generation from SD3 model
         print(f"api headerssss ${api_headers}")
         sd3_headers = api_headers
