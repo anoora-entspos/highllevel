@@ -11,6 +11,6 @@ COPY k4_voice_dictionary.py .
 COPY sadtalker.json .
 COPY .env .
 
-#RUN apt-get update && apt-get install -y ffmpeg
+RUN apt-get update && apt-get install -y ffmpeg
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
