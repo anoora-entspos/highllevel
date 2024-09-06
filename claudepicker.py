@@ -1,11 +1,15 @@
 import time
 import anthropic
-
 from k4_voice_dictionary import voice_dictionary_ids, get_voice_name_by_id
+from dotenv import load_dotenv
+
+load_dotenv()
+
+claude_api_key=os.getenv("claude_api_key")
 
 
 client = anthropic.Anthropic(
-    api_key='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',
+    api_key=claude_api_key,
 )
 
 def get_voice_id(key):
