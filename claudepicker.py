@@ -1,5 +1,6 @@
 import time
 import anthropic
+import os
 from k4_voice_dictionary import voice_dictionary_ids, get_voice_name_by_id
 from dotenv import load_dotenv
 
