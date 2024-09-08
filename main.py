@@ -272,7 +272,7 @@ async def create_animation(request:AnimationRequest):
         "driving_video":"https://firebasestorage.googleapis.com/v0/b/sadtalker-d67ba.appspot.com/o/edit.mp4?alt=media&token=2ee35c02-a96c-4b93-a1ec-50a96d3801ac",
         "live_portrait_dsize": 768,
         "live_portrait_scale": 2.3,
-        "video_frame_load_cap": 0,
+        "video_frame_load_cap": 128,
         "live_portrait_lip_zero": True,
         "live_portrait_relative": True,
         "live_portrait_vx_ratio": 0,
