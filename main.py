@@ -6,6 +6,7 @@ import boto3
 import base64
 from io import BytesIO
 import uuid
+from pydantic import BaseModel  
 import time
 import tempfile
 from claudepicker import pick_voice
@@ -49,10 +50,10 @@ RUNPOD_STATUS_VIDEO_RETALKING_URL = "https://api.runpod.ai/v2/5i72iyq2gojepq/sta
 RUNPOD_STATUS_LIVE_PORTRAIT_URL = "https://api.runpod.ai/v2/ids13oa96hdn6a/status/{request_id}"
 
 # Set Google Application Credentials
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'sadtalker.json'
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = '/Users/mac/Downloads/highllevel-main/sadtalker.json'
 
 # Initialize Firebase Admin SDK with your service account
-cred = credentials.Certificate('sadtalker.json')
+cred = credentials.Certificate('/Users/mac/Downloads/highllevel-main/sadtalker.json')
 if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 
@@ -376,20 +377,31 @@ def run_animation_job(job_id, prompt, text, userid):
     except Exception as e:
             return {"error": str(e)}
     
-
-@app.post("/create_animation")
-async def create_animation(prompt: str, text: str, userid: str, background_tasks: BackgroundTasks):
-    job_id = str(uuid.uuid4())
+# Define a Pydantic model for the request body  
+class AnimationJob(BaseModel):  
+    prompt: str  
+    text: str  
+    userid: str  
     
-    # Store the job in 'queue' state initially
-    jobs[job_id] = 'NOT_FOUND'
+@app.post("/create_animation")  
+async def create_animation(job: AnimationJob, background_tasks: BackgroundTasks):  
+    job_id = str(uuid.uuid4())  
     
-    # Add the task to background so it runs after returning response
-    background_tasks.add_task(run_animation_job, job_id, prompt, text, userid)
+    # Store the job in 'queue' state initially  
+    jobs[job_id] = 'NOT_FOUND'  
     
-    return {"message": "Job started", "job_id": job_id}
+    # Add the task to background so it runs after returning response  
+    background_tasks.add_task(run_animation_job, job_id, job.prompt, job.text, job.userid)  
+    
+    return {"message": "Job started", "job_id": job_id}  
 
 @app.get("/status/{job_id}")
 async def get_status(job_id: str):
     status = jobs.get(job_id, "NOT_FOUND")
     return {"job_id": job_id, "status": status}
+
+
+
+
+
+
