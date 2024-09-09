@@ -50,10 +50,10 @@ RUNPOD_STATUS_VIDEO_RETALKING_URL = "https://api.runpod.ai/v2/5i72iyq2gojepq/sta
 RUNPOD_STATUS_LIVE_PORTRAIT_URL = "https://api.runpod.ai/v2/ids13oa96hdn6a/status/{request_id}"
 
 # Set Google Application Credentials
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = '/Users/mac/Downloads/highllevel-main/sadtalker.json'
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'sadtalker.json'
 
 # Initialize Firebase Admin SDK with your service account
-cred = credentials.Certificate('/Users/mac/Downloads/highllevel-main/sadtalker.json')
+cred = credentials.Certificate('sadtalker.json')
 if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 
