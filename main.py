@@ -68,6 +68,7 @@ api_headers={
             "Content-Type": "application/json",
             "Authorization": "Bearer NQWCNZIZ01WIU9OXPBUL39TS06EM1O4NE28HZDT9"
         }
+
 #resultant video URL
 video_url=''
 #resultant image thumbnail URL
@@ -153,6 +154,9 @@ def generate_speech_with_eleven_labs(text, prompt, max_retries=3):
     return None
 
 def upload_image_to_firebase(image_data):
+    # Declaring image_url as global
+    global image_url  
+
     # Generate a unique filename for the image
     unique_filename = f"{uuid.uuid4()}.png"
     remote_file_path = f'runpodimages/{unique_filename}'
@@ -168,12 +172,14 @@ def upload_image_to_firebase(image_data):
     image_signed_url = blob.generate_signed_url(expiration=expiration_time_seconds)
 
     print(f'Image uploaded successfully! Public URL with token: {image_signed_url}')
-    imgae_url=image_signed_url
+    image_url=image_signed_url
     
     return image_signed_url
 
 # Modify the upload_video_to_firebase function
 def upload_video_to_firebase(video_path, image_data, prompt, userid):
+    # Declaring video_url as global
+    global video_url 
     thumbnailUrl = upload_image_to_firebase(image_data)
 
     # Generate a unique filename for the video
@@ -405,7 +411,6 @@ async def create_animation(job: AnimationJob, background_tasks: BackgroundTasks)
 async def get_status(job_id: str):
     status = jobs.get(job_id, "NOT_FOUND")
     return {"job_id": job_id, "status": status,"thumbnail":image_url,"videourl":video_url}
-
 
 
 
