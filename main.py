@@ -68,6 +68,10 @@ api_headers={
             "Content-Type": "application/json",
             "Authorization": "Bearer NQWCNZIZ01WIU9OXPBUL39TS06EM1O4NE28HZDT9"
         }
+#resultant video URL
+video_url=''
+#resultant image thumbnail URL
+image_url=''
 
 def upload_to_s3(file_data, filename, content_type):
     # Create a BytesIO object from the binary file data
@@ -164,6 +168,7 @@ def upload_image_to_firebase(image_data):
     image_signed_url = blob.generate_signed_url(expiration=expiration_time_seconds)
 
     print(f'Image uploaded successfully! Public URL with token: {image_signed_url}')
+    imgae_url=image_signed_url
     
     return image_signed_url
 
@@ -186,6 +191,7 @@ def upload_video_to_firebase(video_path, image_data, prompt, userid):
     signed_url = blob.generate_signed_url(expiration=expiration_time_seconds)
 
     print(f'Video uploaded successfully! Public URL with token: {signed_url}')
+    video_url=signed_url
 
     # Firestore document data
     document_data = {
@@ -398,7 +404,7 @@ async def create_animation(job: AnimationJob, background_tasks: BackgroundTasks)
 @app.get("/status/{job_id}")
 async def get_status(job_id: str):
     status = jobs.get(job_id, "NOT_FOUND")
-    return {"job_id": job_id, "status": status}
+    return {"job_id": job_id, "status": status,"thumbnail":image_url,"videourl":video_url}
 
 
 
