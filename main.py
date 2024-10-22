@@ -270,7 +270,7 @@ def run_animation_job(job_id, prompt, text, userid):
                 live_portrait_response = requests.post(RUNPOD_LIVE_PORTRAIT_URL, headers=live_portrait_headers, json={
                     "input":{
                 "face_image": s3_image_url,
-                "driving_video":"https://firebasestorage.googleapis.com/v0/b/sadtalker-d67ba.appspot.com/o/videoplayback.mp4?alt=media&token=74af2917-5c57-418a-a865-00b0caff7493",
+                "driving_video":"https://firebasestorage.googleapis.com/v0/b/sadtalker-d67ba.appspot.com/o/WhatsApp%20Video%202024-10-17%20at%207.42.40%20PM%20(1).mp4?alt=media&token=966cdf16-b197-479a-89ec-a64da209af59",
                 "live_portrait_dsize": 768,
                 "live_portrait_scale": 2.3,
                 "video_frame_load_cap": 0,
@@ -410,7 +410,7 @@ async def create_animation(job: AnimationJob, background_tasks: BackgroundTasks)
 @app.get("/status/{job_id}")
 async def get_status(job_id: str):
     status = jobs.get(job_id, "NOT_FOUND")
-    return {"job_id": job_id, "status": status,"thumbnail":image_url,"videourl":video_url}
+    return {"job_id": job_id, "status": status,"thumbnail":image_url,"videourl":video_url,"updated":"yes"}
 
 
 
