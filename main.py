@@ -66,7 +66,7 @@ runpod_auth=os.environ.get("runpod_auth")
 #runpod apis headers
 api_headers={
             "Content-Type": "application/json",
-            "Authorization": "Bearer NQWCNZIZ01WIU9OXPBUL39TS06EM1O4NE28HZDT9"
+            "Authorization": runpod_auth
         }
 
 #resultant video URL
