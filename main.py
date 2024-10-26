@@ -61,7 +61,7 @@ if not firebase_admin._apps:
 bucket_name = 'sadtalker-d67ba.appspot.com'
 
 #runpod token
-runpod_auth=os.environ.get("runpod_auth")
+runpod_auth=os.getenv("runpod_auth")
 
 #runpod apis headers
 api_headers={
